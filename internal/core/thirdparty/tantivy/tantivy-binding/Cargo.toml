@@ -1,0 +1,57 @@
+[package]
+name = "tantivy-binding"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+default = []
+lindera-ipadic = ["lindera/ipadic"]
+lindera-ipadic-neologd = ["lindera/ipadic-neologd"]
+lindera-unidic = ["lindera/unidic"]
+lindera-ko-dic = ["lindera/ko-dic"]
+lindera-cc-cedict = ["lindera/cc-cedict"]
+
+[profile.release]
+opt-level = 3
+debug = true
+lto = true
+debug-assertions = false
+codegen-units = 1
+panic = "unwind"
+overflow-checks = false
+
+[dependencies]
+tantivy = { git = "https://github.com/zilliztech/tantivy", tag = "0.21.2-fix4" } # we have make a private fix for milvus, should be removed in future after milvus fixing the bug.
+lindera = "0.42.2"
+futures = "0.3.21"
+libc = "0.2"
+scopeguard = "1.2"
+zstd-sys = "=2.0.9"
+env_logger = "0.11.3"
+log = "0.4.21"
+lazy_static = "1.4.0"
+serde_json = "1.0.128"
+jieba-rs = "0.6.8"
+regex = "1.11.1"
+either = "1.13.0"
+icu_segmenter = "2.0.0-beta2"
+whatlang = "0.16.4"
+lingua = "1.7.1"
+fancy-regex = "0.14.0"
+
+[dev-dependencies]
+rand = "0.3"
+tempfile = "3.19.1"
+criterion = "0.4"
+
+[build-dependencies]
+cbindgen = "0.26.0"
+
+[[bench]]
+name = "analyzer_bench"
+harness = false
+
+[lib]
+crate-type = ["staticlib", "rlib"]
